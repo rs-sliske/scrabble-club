@@ -167,7 +167,7 @@ return [
          * Package Service Providers...
          */
 
-        //
+        RMoore\ChangeRecorder\ChangeRecorderServiceProvider::class,
 
         /*
          * Application Service Providers...

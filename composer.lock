@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ed9df8b872992035f068a7fe461a635a",
-    "content-hash": "76036da3b5b55b91dbe1e1affa01bf9e",
+    "hash": "4a1cfd5a0a8d1fe4b4469c069644b7d6",
+    "content-hash": "9cf095a57f4d0aeb79b7b461dae1b69f",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -983,6 +983,52 @@
                 "uuid"
             ],
             "time": "2016-10-02 15:51:17"
+        },
+        {
+            "name": "rmoore/change-recorder",
+            "version": "1.1.30",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RMoorePHP/change-recorder.git",
+                "reference": "9221736c0229d1f41d288bc96cb941e2051449dc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/RMoorePHP/change-recorder/zipball/9221736c0229d1f41d288bc96cb941e2051449dc",
+                "reference": "9221736c0229d1f41d288bc96cb941e2051449dc",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.3"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "~1.4",
+                "illuminate/database": "^5.3",
+                "illuminate/events": "^5.3",
+                "illuminate/routing": "^5.3",
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "~5.0",
+                "symfony/css-selector": "3.1.*",
+                "symfony/dom-crawler": "3.1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "RMoore\\ChangeRecorder\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Robert Moore",
+                    "email": "robert@sliske.uk"
+                }
+            ],
+            "description": "records changes made to laravel models",
+            "time": "2016-09-07 16:19:01"
         },
         {
             "name": "swiftmailer/swiftmailer",
