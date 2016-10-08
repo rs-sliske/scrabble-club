@@ -17,7 +17,7 @@ class CreateMatchUserTable extends Migration
             $table->increments('id');
 
             $table->integer('match_id')->unsigned();
-            $table->integer('player_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->integer('score')->unsigned();
 
             $table->timestamps();

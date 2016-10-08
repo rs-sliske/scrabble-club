@@ -28,18 +28,74 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function games()
+    protected $casts = [
+        'administrator' => 'bool',
+    ];
+
+    public function matches()
     {
-        return $this->belongsToMany(Match::class, 'game_user')->withTimestamps()->withPivot('score');
+        return $this->belongsToMany(Match::class)->withTimestamps()->withPivot('score')->latest('pivot_created_at');
     }
 
-    public function wonGames()
+    public function won()
     {
-        return $this->games()->where('winner_id', $this->id);
+        return $this->matches->filter(function($value, $key){
+            return $value->winner()->id === $this->id;
+        });
     }
 
-    public function lostGames()
+    public function lost()
     {
-        return $this->games()->where('loser_id', $this->id);
+        return $this->matches->filter(function($value, $key){
+            return $value->loser()->id === $this->id;
+        });
+    }
+
+    public function totalScore()
+    {
+        return $this->matches->sum(function($value){
+            return $value->pivot->score;
+        });
+    }
+    public function bestScore()
+    {
+        return $this->matches->max(function($value){
+            return $value->pivot->score;
+        });
+    }
+    public function averageScore()
+    {
+        return (int) ($this->totalScore() / $this->matches->count());
+    }
+
+    public function winRatio()
+    {
+        $res = $this->won()->count() / $this->matches->count();
+        $res *= 100.0;
+        return (int) $res;
+    }
+
+    public function toArray()
+    {
+        $data = [
+            'name' => $this->name,
+            'played' => $this->matches->count(),
+            'wins' => $this->won()->count(),
+            'losses' => $this->lost()->count(),
+            'wlr' => $this->winRatio(),
+            's-latest' => $this->matches->first()->pivot->score,
+            's-total' => $this->totalScore(),
+            's-best' => $this->bestScore(),
+            's-average' => $this->averageScore(),
+        ];
+
+        $formatted = $data;
+
+        $formatted['wlr'] .= '%';
+
+        return [
+            'data' => $data,
+            'formatted' => $formatted,
+        ];
     }
 }

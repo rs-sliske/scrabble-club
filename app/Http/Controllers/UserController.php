@@ -14,9 +14,51 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('user.index', ['users'=> User::all()]);
+        $minGames = $request->input('mingames', 0);  
+        $users = User::with('matches.players')->withCount('matches')->where('matches_count', '>=', $minGames)->get();
+
+        if(!count($users)){
+            return view('user.emptyindex');  
+        }
+
+        $desc = $request->input('direction', 'desc') == 'desc';
+        $method = 'sortBy';
+
+        if($desc){
+            $method .= 'Desc';
+        }
+
+        $sort = $request->input('sortby', 'name');    
+       
+        $users = $users->$method(function($value) use ($sort){
+            return $value->toArray()['data'][$sort];
+        });
+    
+        $cols = [];
+        foreach(array_keys($users->first()->toArray()['data']) as $col){
+            $cols[$col] = $col;
+        }
+
+        $cols['s-latest'] = 'Latest Score';
+        $cols['s-average'] = 'Average Score';
+        $cols['s-total'] = 'Total Score';
+        $cols['s-best'] = 'Best Score';
+        $cols['name'] = 'Name';
+        $cols['played'] = 'Games Played';
+        $cols['wins'] = 'Games Won';
+        $cols['losses'] = 'Games Lost';
+        $cols['wlr'] = 'Win %';
+    
+        $data = [
+            'users' => $users,
+            'sort' => $sort,
+            'desc' => $desc,
+            'cols' => $cols,
+        ];
+
+        return view('user.index', $data);        
     }
 
     /**
@@ -27,9 +69,9 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $user->load('matches.players');
         return view('user.profile',[
             'user' => $user,
-            'games' => $user->games(),
         ]);
     }
 

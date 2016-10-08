@@ -4,20 +4,52 @@
 
 
 <div class="container">
-    <h3>All Users</h3>
-
     <div class="user-list-container">
-        <ul class="user-list">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    @foreach($cols as $key => $val)
+                        <td class="{{$sort == $key ? 'current' : ''}}">
+                            <a 
+                                class="plain" 
+                                href="{{ 
+                                    route('users.index', 
+                                        array_merge(
+                                            request()->all(),
+                                            [
+                                                'sortby' => $key, 
+                                                'direction' => $sort == $key ? ($desc ? 'asc' : 'desc') : 'desc'
+                                            ]
+                                        )
+                                    ) 
+                                }}"
+                            >
+                                {{$val}}
+                            </a>
+                        </td>
+                    @endforeach
+                    
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($users as $player)
+                    <tr class="{{ $player->id === auth()->id() ? 'success' : '' }}">
 
-        @foreach($users as $user)
-            <li>
-                <a href="{{ route('users.show', [$user]) }}">
-                    {{ $user->name }}
-                </a>
-            </li>
-        @endforeach
-
-        </ul>
+                        @foreach($cols as $key => $val)
+                            <td class="{{$sort == $key ? 'current' : ''}}">
+                                @if($key == 'name')
+                                    <a href="{{ route('users.show', [$player]) }}">
+                                @endif
+                                {{ $player->toArray()['formatted'][$key] }}
+                                @if($key == 'name')
+                                    </a>
+                                @endif
+                            </td>
+                        @endforeach
+                    </tr>
+                @endforeach                
+            </tbody>
+        </table>
 
     </div>
 

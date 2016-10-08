@@ -168,6 +168,7 @@ return [
          */
 
         RMoore\ChangeRecorder\ChangeRecorderServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
 
         /*
          * Application Service Providers...
