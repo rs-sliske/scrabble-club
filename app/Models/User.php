@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'contact_number'
+        'name', 'email', 'password', 'contact_number',
     ];
 
     /**
@@ -39,30 +39,32 @@ class User extends Authenticatable
 
     public function won()
     {
-        return $this->matches->filter(function($value, $key){
+        return $this->matches->filter(function ($value, $key) {
             return $value->winner()->id === $this->id;
         });
     }
 
     public function lost()
     {
-        return $this->matches->filter(function($value, $key){
+        return $this->matches->filter(function ($value, $key) {
             return $value->loser()->id === $this->id;
         });
     }
 
     public function totalScore()
     {
-        return $this->matches->sum(function($value){
+        return $this->matches->sum(function ($value) {
             return $value->pivot->score;
         });
     }
+
     public function bestScore()
     {
-        return $this->matches->max(function($value){
+        return $this->matches->max(function ($value) {
             return $value->pivot->score;
         });
     }
+
     public function averageScore()
     {
         return (int) ($this->totalScore() / $this->matches->count());
@@ -72,13 +74,15 @@ class User extends Authenticatable
     {
         $res = $this->won()->count() / $this->matches->count();
         $res *= 100.0;
+
         return (int) $res;
     }
 
     public function bestMatch()
     {
         $self = $this;
-        return $this->matches->sortByDesc(function($match) use ($self){
+
+        return $this->matches->sortByDesc(function ($match) use ($self) {
             return $match->score($self);
         })->first();
     }
@@ -101,7 +105,7 @@ class User extends Authenticatable
         $formatted['wlr'] .= '%';
 
         $keys = [];
-        foreach(array_keys($data) as $key){
+        foreach (array_keys($data) as $key) {
             $keys[$key] = $key;
         }
 
