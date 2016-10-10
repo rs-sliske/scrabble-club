@@ -43,7 +43,8 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                        <li><a href="{{ route('users.index') }}">Leaderboard</a></li>
+                        <li><a href="{{ route('matches.create') }}">Add Result</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -59,6 +60,8 @@
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{{route('users.show', [Auth::user()])}}">Profile</a></li>
+                                    <li><a href="{{route('users.edit', [Auth::user()])}}">Edit Settings</a></li>
                                     <li>
                                         <a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();

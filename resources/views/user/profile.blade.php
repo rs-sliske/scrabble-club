@@ -1,31 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h2>{{$user->name}}</h2>
+<div class="container profile-page">
+    <div class="is-centered-x">
+        <h1>Viewing {{ $user->name }}'s Profile</h1>
+        <div>
+            @include('user.partials.best-result')
 
-    <div class="recent-games-container">
-        <div class="recent-matches">
-            @foreach($user->matches as $match)
-                <div class="match-result">
-                    <div class="match-result-block">
-                        <div class="match-result-name">
-                            {{ $user->name }}
-                        </div>
-                        <div class="match-result-score">
-                            {{ $match->score($user) }}
-                        </div>
-                    </div>
-                    <div class="match-result-block">
-                        <div class="match-result-name">
-                            {{ ($other = $match->otherPlayer($user))->name }}
-                        </div>
-                        <div class="match-result-score">
-                            {{ $match->score($other) }}
-                        </div>
-                    </div>
-                </div>
-            @endforeach
+            @include('user.partials.stats')
+
+            @include('user.partials.recent-matches')
         </div>
     </div>
 </div>

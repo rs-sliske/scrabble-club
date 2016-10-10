@@ -5778,11 +5778,20 @@ a.plain {
   a.plain :focus {
     color: inherit; }
 
-.recent-matches {
-  border: 2px solid #2323cc;
-  border-radius: 5px; }
-  .recent-matches .match-result:nth-child(odd) {
-    background-color: #cccccc; }
+.match-result-container {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 1px solid #ddd; }
+  .match-result-container :first-child > .match-result {
+    border-top: 1px solid #ddd; }
 
 .match-result {
   display: -webkit-box;
@@ -5796,11 +5805,38 @@ a.plain {
   display: -webkit-box;
   display: flex;
   width: 50%;
-  padding: 20px;
+  padding: 0 20px;
   -webkit-box-pack: justify;
-  justify-content: space-between; }
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center; }
 
 .match-result-block > div {
-  padding: 20px; }
+  padding: 10px; }
+
+.match-result-name {
+  font-size: 2em; }
+
+.match-result-score {
+  font-size: 3em; }
+
+.is-centered-x {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center; }
+
+.box {
+  border: 1px solid #ddd;
+  margin: 25px; }
+
+.stats-table {
+  padding-left: 20px;
+  margin: 0; }
 
 /*# sourceMappingURL=app.css.map */

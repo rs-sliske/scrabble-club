@@ -6,9 +6,16 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Models\User;
+use App\Http\Requests\UpdateUser;
+use Auth;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except'=>['index', 'show']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -69,9 +76,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $user->load('matches.players');
         return view('user.profile',[
-            'user' => $user,
+            'user' => $user->load('matches.players'),
         ]);
     }
 
@@ -83,19 +89,24 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        if($user->id != Auth::id())
+            return redirect('/');
         return view('user.edit', ['user' => $user]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\UpdateUser  $request
      * @param  User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUser $request, User $user)
     {
-        $user->update($request);
+        // dd($request);
+        if($user->id != Auth::id())
+            return redirect('/');
+        $user->update($request->all());
         return redirect()->route('users.show', [$user]);
     }
 
@@ -107,7 +118,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        
+        if($user->id != Auth::id())
+            return redirect('/');
         $user->delete();
         return redirect()->route('users.index');
     }

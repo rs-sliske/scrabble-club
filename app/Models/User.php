@@ -34,7 +34,7 @@ class User extends Authenticatable
 
     public function matches()
     {
-        return $this->belongsToMany(Match::class)->withTimestamps()->withPivot('score')->latest('pivot_created_at');
+        return $this->belongsToMany(Match::class)->withTimestamps()->withPivot('score')->latest('created_at');
     }
 
     public function won()
@@ -75,6 +75,14 @@ class User extends Authenticatable
         return (int) $res;
     }
 
+    public function bestMatch()
+    {
+        $self = $this;
+        return $this->matches->sortByDesc(function($match) use ($self){
+            return $match->score($self);
+        })->first();
+    }
+
     public function toArray()
     {
         $data = [
@@ -90,12 +98,27 @@ class User extends Authenticatable
         ];
 
         $formatted = $data;
-
         $formatted['wlr'] .= '%';
+
+        $keys = [];
+        foreach(array_keys($data) as $key){
+            $keys[$key] = $key;
+        }
+
+        $keys['s-latest'] = 'Latest Score';
+        $keys['s-average'] = 'Average Score';
+        $keys['s-total'] = 'Total Score';
+        $keys['s-best'] = 'Best Score';
+        $keys['name'] = 'Name';
+        $keys['played'] = 'Games Played';
+        $keys['wins'] = 'Games Won';
+        $keys['losses'] = 'Games Lost';
+        $keys['wlr'] = 'Win Ratio';
 
         return [
             'data' => $data,
             'formatted' => $formatted,
+            'keys' => $keys,
         ];
     }
 }

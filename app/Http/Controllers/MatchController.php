@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
+use App\Http\Requests\AddResult;
 use Auth;
 
 use App\Models\Match;
@@ -12,6 +12,11 @@ use App\Models\User;
 
 class MatchController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except'=>['index', 'show']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -38,10 +43,10 @@ class MatchController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\AddResult  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AddResult $request)
     {
         $match = Match::make($request->all());
         return redirect()->route('matches.show', [$match]);
@@ -55,40 +60,10 @@ class MatchController extends Controller
      */
     public function show(Match $match)
     {
-        return $match->load('players');
+        return view('match.show', [
+            'match' => $match->load('players'),
+            'user' => Auth::user() ?? $match->players->first(),
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

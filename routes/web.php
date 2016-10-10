@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('users.index');
 });
 
 Auth::routes();
@@ -20,4 +20,4 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 
 Route::resource('users', 'UserController', ['except'=> ['store', 'create']]);
-Route::resource('matches', 'MatchController');
+Route::resource('matches', 'MatchController', ['only' => ['index', 'show', 'create', 'store']]);
