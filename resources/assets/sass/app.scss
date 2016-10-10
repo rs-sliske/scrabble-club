@@ -7,3 +7,83 @@
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+td.current {
+	background-color:#ccc;
+	border-color:#ccc;
+}
+
+a.plain {
+	text-style: none;
+	color: inherit;
+
+	:hover {
+		color:inherit;
+	}
+
+	:focus {
+		color:inherit;
+	}
+}
+
+.recent-matches {
+
+	
+}
+
+.match-result-container {
+	display:flex;
+	flex-direction:column;
+	justify-content:center;
+	align-items:center;
+
+	:first-child > .match-result {
+		border-top: 1px solid #ddd;
+	}
+
+	padding-top: 20px;
+
+	border-top: 1px solid #ddd;
+}
+
+.match-result {
+	display:flex;
+
+	:nth-child(even){
+		flex-direction: row-reverse;
+	}
+}
+
+.match-result-block {
+	display:flex;
+	width:50%;
+	padding:0 20px;
+	justify-content:space-between;
+	align-items: center;
+}
+.match-result-block > div {
+	padding:10px;
+}
+
+.match-result-name {
+	font-size:2em;
+}
+.match-result-score {
+	font-size:3em;
+}
+.is-centered-x {
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	justify-content:center;
+}
+
+.box {
+	border: 1px solid #ddd;
+	margin:25px;
+}
+
+.stats-table {
+	padding-left:20px;
+	margin:0;
+}
