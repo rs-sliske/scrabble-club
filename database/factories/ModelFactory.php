@@ -24,9 +24,9 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Models\Game::class, function (Faker\Generator $faker) {
     return [
-    	'user_1_id' => $faker->numberBetween(1,10),
-    	'user_2_id' => $faker->numberBetween(1,10),
-    	'user_1_score' => $faker->numberBetween(1,100),
-    	'user_2_score' => $faker->numberBetween(1,100),
+        'user_1_id' => $faker->numberBetween(1, 10),
+        'user_2_id' => $faker->numberBetween(1, 10),
+        'user_1_score' => $faker->numberBetween(1, 100),
+        'user_2_score' => $faker->numberBetween(1, 100),
     ];
 });

@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Http\Requests\AddResult;
 use Auth;
-
 use App\Models\Match;
 use App\Models\User;
 
@@ -14,7 +11,7 @@ class MatchController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth', ['except'=>['index', 'show']]);
+        $this->middleware('auth', ['except' => ['index', 'show']]);
     }
 
     /**
@@ -49,6 +46,7 @@ class MatchController extends Controller
     public function store(AddResult $request)
     {
         $match = Match::make($request->all());
+
         return redirect()->route('matches.show', [$match]);
     }
 
@@ -65,5 +63,4 @@ class MatchController extends Controller
             'user' => Auth::user() ?? $match->players->first(),
         ]);
     }
-
 }
